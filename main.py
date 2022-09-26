@@ -26,6 +26,7 @@ lista_fitness = []
 
 
 penalidade = 0.2
+taxa_mutacao = 100
 
 # fitness = peso * quantiadade de itens
 
@@ -61,13 +62,15 @@ def aplica_penalidade():
 
 def torneio():
   aux = 0
+  aux_mut = 0
+  ciclo = 0
   # primeiro FOR para percorrer a lista de fitness duas vezes e achar os maiores valores
   while True:
     win01 = 0
     win02 = 0
     lose01 = 10000
     lose02 = 10000
-    print(f'=-=-=-=-=-=-=-=-=-=-==--=-=-=-=-CICLO: {aux}-=-=-=-=-=-=-=-=-=-=-==--=-=-=-=- ')
+    print(f'=-=-=-=-=-=-=-=-=-=-==--=-=-=-=-CICLO: {ciclo}-=-=-=-=-=-=-=-=-=-=-==--=-=-=-=- ')
     if len(set(lista_fitness)) == 1:
       print('FINALIZADO!')
       break  
@@ -133,13 +136,20 @@ def torneio():
     coloca_item()
 
     aux += 1
+    aux_mut += 1
+    ciclo += 1
 
     if aux > 40:
       print('ENTREI NO CICLO 40 - ALTERANDO OS ALENOS DO PIOR CROMOSSOMO')
       for alelo in range(len(cromossomos[lista_fitness.index(lose01)])):
         cromossomos[lista_fitness.index(lose01)][alelo] = randint(0, 1)
       aux = 0
-    
+
+    if aux_mut == taxa_mutacao:
+      print('MUTAÇÃO GENÉTICA GERADA')
+      for num in range(2):
+        cromossomos[randint(0,6)][randint(0,6)] = randint(0,1)
+      aux_mut = 0
 
 
 
@@ -150,5 +160,4 @@ print(30*'--')
 print(lista_fitness)
 print(cromossomos)
 print(30*'--')
-
 torneio()
